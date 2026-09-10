@@ -6,9 +6,8 @@ O ByteBank é um sistema bancário em Python, executado no terminal, construído
 
 ## 👥 Integrantes da equipe
 
-- Nome Completo 1
-- Nome Completo 2
-- Nome Completo 3
+- Patrícia Cedraz
+- Vitor Argay
 
 ## 🗺️ Roadmap
 
@@ -44,7 +43,7 @@ O ByteBank é um sistema bancário em Python, executado no terminal, construído
 
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/SEU-USUARIO/bytebank.git
+   git clone https://github.com/cedraz-pvc/bytebank.git
    cd bytebank
    ```
 
