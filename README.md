@@ -1,15 +1,15 @@
-# 🏦 ByteBank
+# ByteBank
 
 Projeto avaliativo da disciplina **BD015 - Algoritmos e Estruturas de Dados** — CESAR School.
 
 O ByteBank é um sistema bancário em Python, executado no terminal, construído em 3 Sprints incrementais. Cada nível é pré-requisito para o próximo.
 
-## 👥 Integrantes da equipe
+## Integrantes da equipe
 
 - Patrícia Cedraz
 - Vitor Argay
 
-## 🗺️ Roadmap
+## Roadmap
 
 | Sprint | Nível | Entrega | Status |
 |---|---|---|---|
@@ -17,7 +17,7 @@ O ByteBank é um sistema bancário em Python, executado no terminal, construído
 | 2 | Nível 2 (Intermediário) | Múltiplas contas em memória (Matriz) e Transferência PIX | ⏳ Em breve |
 | 3 | Nível 3 | Pilha de estorno e fila de boletos | ⏳ Em breve |
 
-## ⚙️ Funcionalidades (Nível 1)
+## Funcionalidades (Nível 1)
 
 **Autenticação:** o acesso exige senha. Após 3 tentativas incorretas, a conta é bloqueada.
 
