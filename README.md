@@ -14,7 +14,7 @@ O ByteBank é um sistema bancário em Python, executado no terminal, construído
 | Sprint | Nível | Entrega | Status |
 |---|---|---|---|
 | 1 | Nível 1 (MVP) | Operações básicas (Saldo, Depósito, Saque) e validações de segurança | ✅ Concluído |
-| 2 | Nível 2 (Intermediário) | Múltiplas contas em memória (Matriz), Transferência PIX e Cofrinhos | ✅ Concluído |
+| 2 | Nível 2 (Intermediário) | Múltiplas contas em memória (Matriz), Transferência PIX, Cofrinhos, Categorização de gastos, Cartão de crédito, Carteira multimoedas, BytePoints e Empréstimos | ✅ Concluído |
 | 3 | Nível 3 | Pilha de estorno e fila de boletos | ⏳ Em breve |
 
 ## ⚙️ Funcionalidades (Nível 1)
@@ -47,12 +47,30 @@ O ByteBank é um sistema bancário em Python, executado no terminal, construído
 
 **Cofrinhos (caixinhas de investimento):** cada conta pode criar caixinhas personalizadas, guardar dinheiro (sai do saldo principal), resgatar (volta para o saldo) e simular o rendimento por juros simples de 0,5% ao mês. A simulação é apenas uma projeção e não altera os saldos.
 
+**Categorização de gastos:** todo saque e todo PIX enviado exigem a escolha de uma categoria (Alimentação, Transporte, Lazer, Contas ou Outros). Cada movimentação é registrada no histórico da conta.
+
+**Relatório por categoria:** a função `relatorio_categoria()` percorre o histórico, soma os gastos de cada categoria e mostra o valor, o percentual sobre o total gasto, o percentual do orçamento mensal consumido e um alerta quando o orçamento é estourado. O orçamento pode ser alterado pelo menu.
+
+**Extrato:** lista todas as movimentações da conta, identificando saídas (-), entradas (+) e movimentos internos de cofrinho ou fatura (~).
+
+**Cartão de crédito:** cada conta tem limite aprovado, fatura em aberto e lista de compras. A função `comprar_no_credito()` aumenta a fatura e reduz o limite disponível sem tocar no saldo da conta corrente, recusando a compra quando o limite não é suficiente. A função `pagar_fatura()` usa o saldo da conta corrente para quitar a fatura, total ou parcialmente, e restabelece o limite. A despesa é reconhecida na compra, então o pagamento da fatura não conta em dobro no relatório de gastos.
+
+**Carteira multimoedas:** além do saldo em reais, cada conta tem saldos em USD, EUR e BTC. As funções `comprar_moeda_estrangeira()` e `vender_moeda_estrangeira()` convertem os valores pelas cotações fixas do dicionário `TAXAS` (1 USD = R$ 5,50 | 1 EUR = R$ 6,00 | 1 BTC = R$ 350.000,00). O câmbio troca um ativo por outro, então não entra no relatório de despesas. Moedas fiduciárias usam 2 casas decimais e o BTC usa 8.
+
+**BytePoints (fidelidade e cashback):** a cada R$ 10,00 gastos em saques e PIX enviados, o cliente acumula 1 ponto. A função `consultar_pontos()` mostra o saldo e a tabela de equivalência, e `resgatar_cashback()` converte os pontos em saldo na conta corrente, à razão de 100 pontos = R$ 5,00, em múltiplos do bloco mínimo.
+
+**Empréstimo pré-aprovado:** o limite é de até 3x o saldo atual da conta. A função `simular_emprestimo()` calcula juros simples de 2% ao mês, o total a pagar e o valor da parcela. `contratar_emprestimo()` credita o valor na conta e gera a dívida como uma lista de parcelas, e `pagar_parcela_emprestimo()` quita a próxima parcela em aberto usando o saldo da conta. Cada parcela separa amortização e juros: só os juros entram como despesa no relatório.
+
 ### Estruturas de dados aplicadas
 
 | Estrutura | Onde é usada |
 |---|---|
 | Matriz (lista de listas) | Cadastro das contas do banco |
-| Dicionário aninhado | Cofrinhos de cada conta |
+| Dicionário aninhado | Cofrinhos e saldos em moeda estrangeira de cada conta |
+| Lista de dicionários | Histórico, compras do cartão e parcelas do empréstimo |
+| Agregação com dicionário (GROUP BY) | Soma dos gastos por categoria no relatório |
+| Condicionais encadeadas | Aprovação de compra no crédito e pagamento da fatura |
+| Dicionário de taxas | Cotações do câmbio e tabela de equivalência dos pontos |
 | Busca linear | Localização da conta pela chave PIX ou pelo número |
 
 ### Contas para teste
@@ -88,7 +106,14 @@ O ByteBank é um sistema bancário em Python, executado no terminal, construído
    [3] Sacar
    [4] Transferir via PIX
    [5] Cofrinhos
-   [6] Ver contas do banco
+   [6] Cartão de crédito
+   [7] Carteira multimoedas
+   [8] BytePoints (fidelidade)
+   [9] Empréstimo
+   [10] Relatório de gastos por categoria
+   [11] Extrato da conta
+   [12] Definir orçamento mensal
+   [13] Ver contas do banco
    [0] Sair da conta
    ```
 
